@@ -1,14 +1,6 @@
 pipeline {
     agent any
 
-    parameters {
-        choice(
-            name: 'ENVIRONMENT',
-            choices: ['dev', 'staging', 'prod'],
-            description: 'Select the deployment environment'
-        )
-    }
-
     stages {
 
         stage('Checkout') {
@@ -24,33 +16,17 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Generate Report') {
             steps {
-                echo "Testing Online Examination System..."
-                echo "Test completed successfully."
+                bat 'java OnlineExam'
             }
         }
 
-        stage('Show Parameter') {
+        stage('Archive Report') {
             steps {
-                echo "Selected environment: ${params.ENVIRONMENT}"
+                archiveArtifacts artifacts: 'report.txt',
+                    fingerprint: true
             }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo "Deploying Online Examination System to ${params.ENVIRONMENT} environment..."
-            }
-        }
-    }
-
-    post {
-        success {
-            echo "Pipeline completed successfully!"
-        }
-
-        failure {
-            echo "Pipeline failed."
         }
     }
 }
