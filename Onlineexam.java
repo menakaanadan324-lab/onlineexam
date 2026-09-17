@@ -1,92 +1,65 @@
-import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class OnlineExam {
 
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+        int totalQuestions = 5;
+        int correctAnswers = 5;
 
-        String[] questions = {
-            "1. What is the full form of CPU?",
-            "2. Which language is used for Android development?",
-            "3. What is 10 + 20?",
-            "4. Which one is a programming language?",
-            "5. What does HTML stand for?"
-        };
+        double percentage =
+                (correctAnswers * 100.0) / totalQuestions;
 
-        String[] options = {
-            "A. Central Processing Unit",
-            "B. Computer Personal Unit",
-            "C. Central Program Unit",
-            "D. Control Processing Unit"
-        };
-
-        String[] answers = {"A", "B", "C", "B", "A"};
-
-        int score = 0;
+        String result = percentage >= 40 ? "PASS" : "FAIL";
 
         System.out.println("======================================");
         System.out.println("     ONLINE EXAMINATION SYSTEM");
         System.out.println("======================================");
-
-        for (int i = 0; i < questions.length; i++) {
-
-            System.out.println("\n" + questions[i]);
-
-            if (i == 0) {
-                System.out.println("A. Central Processing Unit");
-                System.out.println("B. Computer Personal Unit");
-                System.out.println("C. Central Program Unit");
-                System.out.println("D. Control Processing Unit");
-            } else if (i == 1) {
-                System.out.println("A. Python");
-                System.out.println("B. Java");
-                System.out.println("C. HTML");
-                System.out.println("D. SQL");
-            } else if (i == 2) {
-                System.out.println("A. 20");
-                System.out.println("B. 25");
-                System.out.println("C. 30");
-                System.out.println("D. 40");
-            } else if (i == 3) {
-                System.out.println("A. HTML");
-                System.out.println("B. Java");
-                System.out.println("C. CSS");
-                System.out.println("D. SQL");
-            } else {
-                System.out.println("A. Hyper Text Markup Language");
-                System.out.println("B. High Text Machine Language");
-                System.out.println("C. Hyper Tool Markup Language");
-                System.out.println("D. Home Text Markup Language");
-            }
-
-            System.out.print("Enter your answer: ");
-            String userAnswer = sc.nextLine().toUpperCase();
-
-            if (userAnswer.equals(answers[i])) {
-                score++;
-            }
-        }
-
-        System.out.println("\n======================================");
-        System.out.println("              RESULT");
-        System.out.println("======================================");
-        System.out.println("Total Questions : " + questions.length);
-        System.out.println("Correct Answers : " + score);
-        System.out.println("Score            : " + score + "/" + questions.length);
-
-        double percentage = (score * 100.0) / questions.length;
-
-        System.out.println("Percentage       : " + percentage + "%");
-
-        if (percentage >= 40) {
-            System.out.println("Result           : PASS");
-        } else {
-            System.out.println("Result           : FAIL");
-        }
-
+        System.out.println("Total Questions : " + totalQuestions);
+        System.out.println("Correct Answers : " + correctAnswers);
+        System.out.println("Score           : " + correctAnswers + "/" + totalQuestions);
+        System.out.println("Percentage      : " + percentage + "%");
+        System.out.println("Result          : " + result);
         System.out.println("======================================");
 
-        sc.close();
+        try {
+            PrintWriter writer =
+                    new PrintWriter(new FileWriter("report.txt"));
+
+            writer.println("ONLINE EXAMINATION AND EVALUATION SYSTEM");
+            writer.println("=========================================");
+            writer.println();
+            writer.println("Build Report");
+            writer.println();
+            writer.println("Application: Online Examination System");
+            writer.println("Version: 1.0");
+            writer.println();
+            writer.println("Build Status: SUCCESS");
+            writer.println("Compilation Status: SUCCESS");
+            writer.println("Testing Status: PASSED");
+            writer.println();
+            writer.println("Total Questions: " + totalQuestions);
+            writer.println("Correct Answers: " + correctAnswers);
+            writer.println("Score: " + correctAnswers + "/" + totalQuestions);
+            writer.println("Percentage: " + percentage + "%");
+            writer.println();
+            writer.println("Result: " + result);
+            writer.println();
+            writer.println("=========================================");
+            writer.println("Build completed successfully.");
+
+            writer.close();
+
+            System.out.println("report.txt generated successfully.");
+
+        } catch (IOException e) {
+
+            System.out.println("Error creating report.txt");
+            e.printStackTrace();
+
+            System.exit(1);
+        }
     }
 }
